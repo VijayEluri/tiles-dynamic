@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="tiles-dynamic-lib" default="build.release" basedir=".">
+	<fail unless="tomcat.lib.dir"  message="Please specify tomcatlib property from command line. e.g. -Dtomcatlib=pathtotomcat/common/lib" />
+
+    <!-- Configuration -->
+	<property name="version.suffix" value="1.0"/>
+	<property name="project.name" value="${ant.project.name}"/>
+	<property name="compile.debug" value="false"/>
+	<property name="compile.optimize" value="true"/>
+
+    <!-- Build stuff -->
+	<property name="build.home.name" value="${project.name}-${version.suffix}"/>
+	<property name="build.home.loc" location="${basedir}/${build.home.name}"/>
+    <property name="src.loc" value="${basedir}/src"/>
+	<property name="lib.loc" value="${basedir}/lib"/>
+	
+	<property name="build.classes.loc"	value="${build.home.loc}/classes"/>
+	<property name="build.doc.loc"		value="${build.home.loc}/javadoc" />
+	<property name="build.lib.loc" 		value="${build.home.loc}/lib"/>
+	<property name="build.jar.loc"		value="${build.home.loc}"/>
+    <property name="tmp.loc"			value="${basedir}/tmp"/>
+	<property name="build.jar.name"		value="${build.home.name}.jar"/>
+    <property name="build.zip.name"		value="${build.home.name}.zip"/>
+    <property name="build.doczip.name" 	value="${build.home.name}-javadoc.zip"/>
+
+
+	<!-- Clean intermediate and temporary build products -->
+	<target name="clean" description="Cleans the intermediate build directories">
+		<delete dir="${tmp.loc}" failonerror="false" />
+		<delete dir="${build.home.loc}" failonerror="false" />
+	</target>    
+
+	
+	<!-- Clean everything, including the build products. Useful when start a new build -->
+	<target name="dist.clean" depends="clean" description="Cleans both intermediate and final build products">
+		<delete file="${build.zip.name}" failonerror="false" />
+	</target>    
+	
+	<!-- The classpath -->
+	<path id="compile.classpath" description="The main classes classpath">
+		<fileset dir="${build.lib.loc}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Extend the classpath with tomcat libraries -->
+	<path id="compile.classpath.xtra">
+		<fileset dir="${tomcat.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<!-- Files excluded from the compiling process -->
+	<property name="compile.excludes" value="**/*.dist" />
+	
+	<!-- Files excluded form the build process (moving compile products to the classes directory) -->
+	<property name="build.excludes" value="**/*.java" />
+	
+	<!-- Prepare our build directory structure for zip or libs -->
+    <target name="prepare" description="Prepare our build directory structure for zips or libs">
+        <mkdir dir="${build.home.loc}" />
+        <mkdir dir="${build.classes.loc}" />
+        <mkdir dir="${build.lib.loc}" />
+        <mkdir dir="${build.doc.loc}" />
+        <mkdir dir="${tmp.loc}" />
+    	
+    	<!-- Copy the jars -->
+        <copy todir="${build.lib.loc}" overwrite="true" flatten="true" preservelastmodified="true">
+            <fileset dir="${lib.loc}">
+                <include name="**/*.jar" />
+            </fileset>
+        </copy>
+    </target>
+	
+	<!-- Compile the main sources and also carry over the resources -->
+	<target name="compile" description="Compiles java source">
+		<javac srcdir="${src.loc}" 
+               destdir="${build.classes.loc}" 
+               debug="${compile.debug}" 
+               deprecation="${compile.deprecation}" 
+               optimize="${compile.optimize}"
+			   includes="**/*.java"
+	           excludes="${compile.excludes}"
+			>
+			<classpath refid="compile.classpath" />
+			<classpath refid="compile.classpath.xtra" />
+		</javac>
+		
+		<!-- Copy over but exclude all things, e.g. .dist and .java files -->
+        <copy todir="${build.classes.loc}" flatten="false" preservelastmodified="true" overwrite="true">
+            <fileset dir="${src.loc}">
+                <include name="**/*"/>
+            	<exclude name="${compile.excludes}"/>
+            	<exclude name="${build.excludes}"/>
+            </fileset>
+        </copy>
+	</target>
+	
+	<!-- Builds the main jar file -->
+	<target name="jar" description="Builds the main jar">
+       	<jar destfile="${build.jar.loc}/${build.jar.name}"
+			basedir="${build.classes.loc}"
+            includes="**/*"
+         >
+        	<manifest>
+            	<attribute name="Implementation-Version" value="${version.suffix}"/>
+            </manifest>
+		</jar>
+		<!-- Not needed any more -->
+		<delete dir="${build.classes.loc}" />
+	</target>
+
+	<!-- Javadoc -->
+	<target name="javadoc" description="Create Javadoc API documentation">
+		<javadoc destdir="${build.doc.loc}" 
+				 doctitle="${project.name} - ${version.suffix}"
+				 overview="README.html"
+	        	 access="public"
+    	    	 author="true"
+	        	 nodeprecated="false"
+	        	 nodeprecatedlist="false"
+	        	 noindex="false"
+	        	 nonavbar="false"
+	        	 notree="false"
+	        	 packagenames="net.chronakis.struts.tiles"
+				 >
+            <fileset dir="${src.loc}" casesensitive="yes">
+                <include name="**/*.java"/>
+                <exclude name="${compile.excludes}"/>
+            </fileset>
+			<classpath refid="compile.classpath"/>
+		</javadoc>
+		
+        <zip destfile="${build.home.loc}/${build.doczip.name}" >
+            <zipfileset dir="${build.doc.loc}"/>
+		</zip>
+
+		<!-- Not needed any more -->
+		<delete dir="${build.doc.loc}" />
+	</target>
+	
+	<!-- Builds the release in a directory -->
+	<target name="build.release">
+		<antcall target="dist.clean"/>
+		<antcall target="prepare"/>
+		<antcall target="compile"/>
+		<antcall target="javadoc"/>
+		<antcall target="jar"/>
+		<delete dir="${tmp.loc}" />
+	</target>
+
+	<!-- Builds this project as a compressed directory release. You can exclude files by passing the zip.exclude parameter -->
+	<target name="build.release.zip" depends="build.release" description="Create release zip file that includes javadoc and lib directories as well as jar file.">
+        <zip destfile="${build.zip.name}" >
+            <zipfileset dir="${build.home.loc}" prefix="${build.home.name}">
+            	<exclude name="${zip.exclude}"/>
+            </zipfileset>
+		</zip>
+    	<antcall target="clean"/>
+    </target>
+	
+</project>
