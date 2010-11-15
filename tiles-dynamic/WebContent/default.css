@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+#master-container {
+	background: #CCFFCC;
+	border: solid thin black;
+	margin: 1px;
+	padding: 1px;
+}
+	
+#header {
+	background: yellow;
+	border: solid thin black;
+	margin: 1px;
+	padding: 1px;
+}
+
+#body {
+	background: #CCCCCC;
+	border: solid thin black;
+	margin: 1px;
+	padding: 1px;
+}
+
+#task-nav {
+	background: #FFCCCC;
+	border: solid thin black;
+	margin: 1px;
+	padding: 1px;
+}
+
+#task-content {
+	background: #CCCCFF;
+	border: solid thin black;
+	margin: 1px;
+	padding: 1px;
+}
+
+#task-footer {
+	clear: both;
+}

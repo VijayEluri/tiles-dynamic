@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+  <action-mappings>
+		<action path="/home"
+			type="org.apache.struts.actions.ForwardAction"
+			parameter="home.page" />
+		<action path="/help"
+			type="org.apache.struts.actions.ForwardAction"
+			parameter="help.page" />
+		<action path="/loggedinHome"
+			type="org.apache.struts.actions.ForwardAction"
+			parameter="loggedinHome.page" />
+		<action path="/loggedinMessages"
+			type="org.apache.struts.actions.ForwardAction"
+			parameter="loggedinMessages.page" />
+
+		<!-- Action to set the layout -->
+		<action path="/setLayout"
+			type="net.chronakis.struts.tiles.example.SetLayoutAction"
+			input="home.page"
+			/>
+  </action-mappings>
+
+  <message-resources parameter="org.exampe.strutsmessages" />
+
+	<!-- Load the initial default tiles variables -->
+	<plug-in className="net.chronakis.struts.tiles.example.DynamicTilesExampleStrutsPlugin"/>
+	
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+  		<set-property property="definitions-factory-class" value="net.chronakis.struts.tiles.DynamicTilesFactory"/>  
+		<set-property property="definitions-config" value="/WEB-INF/tiles-config.xml" />
+		<set-property property="moduleAware" value="true" />
+		<set-property property="definitions-parser-validate" value="true" />
+	</plug-in>
+</struts-config>

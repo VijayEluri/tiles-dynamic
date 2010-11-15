@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN"
+       "http://struts.apache.org/dtds/tiles-config_1_3.dtd">
+<!--
+	Tiles definition file.
+	
+	While this file looks like a normal tiles definition, it is not.
+	It is parsed by an extended TilesPreProcessor class, that
+	can understand variable substitutions, thus converting it to a dynamic
+	tiles file where the application can programatically change
+	various attributes for every http request.
+	
+	The main advantage of this strategy is that we can dynamically
+	change the templates (how the page is rendered) and the
+	tiles without having to redifine the abstract definitions.  
+ -->
+
+       
+<tiles-definitions>
+	<!-- The values named like ${variable} will be replaced by the custom tiles preproseccor -->
+	<definition name="master" path="${masterLayoutPage}">
+		<put name="title"  value="Master default title" />
+		<put name="header" value="/components/header.jsp"/>
+		<put name="body"   value="body_default_value"/>
+	</definition>
+	
+	<!-- Individual pages folowing the master template -->
+	<definition name="home.page" extends="master">
+		<put name="title"  value="Home page title"/>
+		<put name="body"   value="/components/home.jsp"/>
+	</definition>
+
+	<definition name="help.page" extends="master">
+		<put name="title"  value="Help page title"/>
+		<put name="body"   value="/components/help.jsp"/>
+	</definition>
+
+
+	<!-- Task body nested definition and individual pages folowing the task body -->
+	<definition name="loggedin" extends="master">
+		<put name="body"   		value="loggedin.body"/>
+	</definition>
+	<definition name="loggedin.body" page="${loggedinBodyLayoutPage}">
+		<put name="nav" 	value="/components/loggedinNav.jsp"/>
+		<put name="content" value="content_default_value"/>
+	</definition>
+	
+	<!--
+		Experimental syntax that will generate on the fly the following:
+		A defintion of with name task.page/task.body
+		that will extend the task.body and will override the task.page/task.body
+		content attribute with the supplied task.body/content value
+	-->
+	<definition name="loggedinHome.page" extends="loggedin">
+		<put name="loggedin.body/content"   value="/components/loggedinHome.jsp"/>
+	</definition>
+
+	<definition name="loggedinMessages.page" extends="loggedin">
+		<put name="loggedin.body/content"   value="/components/loggedinMessages.jsp"/>
+	</definition>
+
+</tiles-definitions>
