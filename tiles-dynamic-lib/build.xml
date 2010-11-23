@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="tiles-dynamic-lib" default="build.release" basedir=".">
-	<fail unless="tomcat.lib.dir"  message="Please specify tomcatlib property from command line. e.g. -Dtomcatlib=pathtotomcat/common/lib" />
+	<fail unless="tomcat.lib.dir"  message="Please specify tomcat.lib.dir property from command line. e.g. -Dtomcat.lib.dir=pathtotomcat/common/lib" />
 
     <!-- Configuration -->
 	<property name="version.suffix" value="1.0"/>
