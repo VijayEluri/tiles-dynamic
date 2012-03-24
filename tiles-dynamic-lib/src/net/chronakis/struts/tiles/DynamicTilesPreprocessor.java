@@ -82,7 +82,7 @@ public class DynamicTilesPreprocessor extends TilesPreProcessor {
 		
 		origFactory = DynamicTilesFactoryActual.getOriginalDefinitionsFactory(modulePrefix, sacontext.getContext());
 		if(origFactory == null) {
-			logger.warn("Cannot find the origFactory - Aborting variable substitution - execute() END");
+			logger.debug("Cannot find the origFactory for prefix {} - Aborting variable substitution - execute() END", modulePrefix);
 			return super.execute(context);
 		}
 		
