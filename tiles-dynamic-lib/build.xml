@@ -3,7 +3,7 @@
 	<fail unless="tomcat.lib.dir"  message="Please specify tomcat.lib.dir property from command line. e.g. -Dtomcat.lib.dir=pathtotomcat/common/lib" />
 
     <!-- Configuration -->
-	<property name="version.suffix" value="1.0"/>
+	<property name="version.suffix" value="1.0.1"/>
 	<property name="project.name" value="${ant.project.name}"/>
 	<property name="compile.debug" value="false"/>
 	<property name="compile.optimize" value="true"/>
