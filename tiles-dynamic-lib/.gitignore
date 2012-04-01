@@ -1,2 +1,5 @@
-/bin
-/tiles-dynamic-lib-*
+bin/
+target/
+.settings/
+.classpath
+.project
