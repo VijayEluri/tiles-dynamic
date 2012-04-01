@@ -39,9 +39,9 @@ import org.slf4j.LoggerFactory;
  * 
  * <p>Use the following functions to pass the variable Maps</p>
  * <ul>
- *   <li>{@link setServletVariables(Map<String, String> variables, ServletContext context)}</li>
- *   <li>{@link setSessionVariables(Map<String, String> variables, ServletRequest request)}</li>
- *   <li>{@link setRequestVariables(Map<String, String> variables, Session session)}</li>
+ *   <li> {@link DynamicTilesUtils#setVariables(Map, String, ServletRequest)}
+ *   <li> {@link DynamicTilesUtils#setVariables(Map, String, javax.servlet.http.HttpSession)}
+ *   <li> {@link DynamicTilesUtils#setVariables(Map, String, ServletRequest)}
  * </ul>
  * 
  * <p>The search for the correct variable value works like this:</p>

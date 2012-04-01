@@ -15,7 +15,11 @@
   <packaging>jar</packaging>
 
   <name>tiles-dynamic-lib</name>
-  <description>The maven main core project description</description>
+  <description>
+  	The library with API and implementation of the tiles-dynamic project.
+  	tiles-dynamic is an extension for the struts tiles library that allows to dynamically change
+  	the tiles configuration during runtime at the servlet, session and request scope
+  </description>
   <url>https://github.com/chronakis/tiles-dynamic</url>
 
   <licenses>

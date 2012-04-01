@@ -15,6 +15,11 @@
   <packaging>war</packaging>
 
   <name>tiles-dynamic-example</name>
+  <description>
+  	Example web application for the tiles-dynamic-lib.
+  	tiles-dynamic is an extension for the struts tiles library that allows to dynamically change
+  	the tiles configuration during runtime at the servlet, session and request scope
+  </description>
   <url>https://github.com/chronakis/tiles-dynamic</url>
 
   <licenses>
@@ -130,5 +135,4 @@
   <repositories></repositories>
   <pluginRepositories></pluginRepositories>
   -->
-  <description>Example web application that uses the dynamic tiles library</description>
 </project>

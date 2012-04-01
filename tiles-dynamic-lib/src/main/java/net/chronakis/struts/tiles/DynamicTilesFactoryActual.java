@@ -44,55 +44,55 @@ import org.slf4j.LoggerFactory;
  * <p>Tiles support inheritance and works well till the moment you decide to use it with nested tiles.<br/>
  * Use case: A page with a header and a content component named master, header, body respecitively</p>
  * 
- * <pre>
+ * {@literal 
 	definition name="master" path="masterLayout.jsp"
 		put name="title"  value="Master default title"
 		put name="header" value="/components/header.jsp"
 		put name="body"   value="body_default_value"
 	/definition
- * </pre>
+ }
  * 
  * <p>When e.g. user is logged in, then the content will use another tile as its value e.g. task.body<br/>
  * This loggedin.body will consist of two tiles, nav and content.<br/>
- * <pre>
+ * {@literal 
 	definition name="loggedin.body" page="loggedin.bodyBodyLayout.jsp"
 		put name="nav" 	   value="/components/nav.jsp"
 		put name="content" value="content_default_value"
 	/definition
- * </pre>
+  }
  * 
- * <pre>
  * Then you will define a set of pages that the user is logged in like this:
+ * {@literal 
 	definition name="loggedin" extends="master"
 		put name="body"        value="loggedin.body"
 	/definition
- * </pre>
+ }
  * 
  * <p>Until now everything looks fine. But you will usually want to define various pages
  * of the logged in user. With standard tiles this is a real pain:<br/>
  * For each loggedin page, you will have to extend the logged in body to override the content
  * and then extend the logged in page and set the new body tile.<br/>
  * Let's see an example. e.g. you want a messages.page and a friends.page<br/>
- *
- * <pre>
+ * 
+ * {@literal 
 	definition name="loggedin.page.body" extends="loggedin.body"
 		<put name="content"   value="/components/task.jsp"
 	/definition
 	<definition name="messages.page" extends="loggedin"
 		put name="body"   value="loggedin.page.body"
 	/definition
- * </pre>
+ }
  *
  * <p>This can became quickly unreadable in real world with more attributes and difficult to manage</p>
  * <p>The DynamicTilesFactoryActual simplifies this dramatically by eliminating the need to extend
  * the nested tile. You can refer to the nested tile attributes (e.g. content) from within the
  * outside tile (e.g. messages.page) using the slash (/) character like this: <b>loggedin.body/content</b></p>
  * 
- * <pre>
+ * {@literal 
 	definition name="task.page" extends="task"
 		<put name="task.body/content"   value="/components/task.jsp"
 	/definition
- * </pre>
+   }
  * 
  * <p>This makes thing enormously more readable for large tiles definitions<p>
  * 
@@ -327,7 +327,6 @@ public class DynamicTilesFactoryActual extends I18nFactorySet {
 	 * can be done</p>
 	 * 
 	 * @param filename
-	 * @param context
 	 * @throws IOException 
 	 */
 	protected static Map<String, String> readDefaultVariables(String filename) throws IOException {
@@ -357,7 +356,6 @@ public class DynamicTilesFactoryActual extends I18nFactorySet {
 	 * Does a case insensitive replace based on a pattern
 	 * @param regex
 	 * @param subject
-	 * @return
 	 */
 	public static String replaceIgnoreCase(String regex, String replacement, String subject) {
 		Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
@@ -371,7 +369,6 @@ public class DynamicTilesFactoryActual extends I18nFactorySet {
 	 * 
 	 * @param definitions
 	 * @param origDefsFile
-	 * @param servletContext
 	 */
 	protected static void dump(XmlDefinitionsSet definitions, String origDefsFile) {
 		String interFile = replaceIgnoreCase("\\.xml$", ".effective.xml", origDefsFile);
@@ -395,7 +392,7 @@ public class DynamicTilesFactoryActual extends I18nFactorySet {
 	/**
 	 * This writes the definitions to a file or the stdout
 	 * 
-	 * @param filename
+	 * @param out
 	 * @param definitions
 	 * @throws IOException
 	 */
