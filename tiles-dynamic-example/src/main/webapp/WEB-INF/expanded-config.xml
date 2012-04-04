@@ -22,23 +22,28 @@
 	<definition name="loggedin" extends="master">
 		<put name="body" value="loggedin.body" />
 	</definition>
-	<definition name="loggedin.body" page="${loggedinBodyLayoutPage}">
+	<definition name="loggedin.body" path="${loggedinBodyLayoutPage}">
 		<put name="nav" value="/components/loggedinNav.jsp" />
 		<put name="content" value="content_default_value" />
 	</definition>
-
+	
 	<!--
-		Below is the tiles-dynamic syntax
-		You only have to define the part that is changing in the nested tile
+		Below is the standard syntax.
+		Notice that you have to replicate the outer tile for every nested one
 	-->
 	<!-- Page based on the loggedin tile above, but only overrides the tile content inside the tile body -->
 	<definition name="loggedinHome.page" extends="loggedin">
-		<put name="loggedin.body/content" value="/components/loggedinHome.jsp" />
+		<put name="body" value="loggedinHome.page/loggedin.body" />
+	</definition>
+	<definition name="loggedinHome.page/loggedin.body" extends="loggedin.body">
+		<put name="content" value="/components/loggedinHome.jsp" />
 	</definition>
 
 	<!-- Another nested page definition -->
 	<definition name="loggedinMessages.page" extends="loggedin">
-		<put name="loggedin.body/content" value="/components/loggedinMessages.jsp" />
+		<put name="body" value="loggedinMessages.page/loggedin.body" />
 	</definition>
-
+	<definition name="loggedinMessages.page/loggedin.body" extends="loggedin.body">
+		<put name="content" value="/components/loggedinMessages.jsp" />
+	</definition>
 </tiles-definitions>

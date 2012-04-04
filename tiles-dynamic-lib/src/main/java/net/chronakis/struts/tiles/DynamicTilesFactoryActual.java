@@ -43,30 +43,34 @@ import org.slf4j.LoggerFactory;
  * <p>Regarding the variable substitution please read the javadoc page for @link{DynamicTilesPreprocessor}</p>
  * <p>Tiles support inheritance and works well till the moment you decide to use it with nested tiles.<br/>
  * Use case: A page with a header and a content component named master, header, body respecitively</p>
- * 
- * {@literal 
+ * <pre>
+ {@literal 
 	definition name="master" path="masterLayout.jsp"
 		put name="title"  value="Master default title"
 		put name="header" value="/components/header.jsp"
 		put name="body"   value="body_default_value"
 	/definition
  }
- * 
+ *</pre> 
  * <p>When e.g. user is logged in, then the content will use another tile as its value e.g. task.body<br/>
  * This loggedin.body will consist of two tiles, nav and content.<br/>
- * {@literal 
+ * <pre>
+ {@literal 
 	definition name="loggedin.body" page="loggedin.bodyBodyLayout.jsp"
 		put name="nav" 	   value="/components/nav.jsp"
 		put name="content" value="content_default_value"
 	/definition
   }
+ * </pre>
  * 
  * Then you will define a set of pages that the user is logged in like this:
- * {@literal 
+ * <pre>
+ {@literal 
 	definition name="loggedin" extends="master"
 		put name="body"        value="loggedin.body"
 	/definition
  }
+ * </pre>
  * 
  * <p>Until now everything looks fine. But you will usually want to define various pages
  * of the logged in user. With standard tiles this is a real pain:<br/>
@@ -87,12 +91,13 @@ import org.slf4j.LoggerFactory;
  * <p>The DynamicTilesFactoryActual simplifies this dramatically by eliminating the need to extend
  * the nested tile. You can refer to the nested tile attributes (e.g. content) from within the
  * outside tile (e.g. messages.page) using the slash (/) character like this: <b>loggedin.body/content</b></p>
- * 
- * {@literal 
+ * <pre>
+  {@literal 
 	definition name="task.page" extends="task"
 		<put name="task.body/content"   value="/components/task.jsp"
 	/definition
    }
+   </pre>
  * 
  * <p>This makes thing enormously more readable for large tiles definitions<p>
  * 
@@ -116,7 +121,7 @@ import org.slf4j.LoggerFactory;
  * 
  * <p><b>What if you don't want both features (variable substitution & nested inheritance syntax)</b><p>
  * 
- * <p>This is fine. DynamicTilesFactoryActual behaves exactly as the standard tiles if it does not finde any
+ * <p>This is fine. DynamicTilesFactoryActual behaves exactly as the standard tiles if it does not find any
  * slashes (/) in the attribute names. In addition, if you do not want the variable substitution,
  * you can use it with the standard TilesPreprocessor and avoid using the provided custom chain-config.xml</p>
  * 

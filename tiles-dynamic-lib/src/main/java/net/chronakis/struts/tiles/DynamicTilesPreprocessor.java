@@ -24,27 +24,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <p>This tiles preprocessor has the ability to substitute variables on the
+ * This tiles preprocessor has the ability to substitute variables on the
  * values of the definition path property and all attribute values
- * per request.</p>
- * 
- * <p>To use this you will need to use the specially crafted factory called
- * {@link DynamicTilesFactoryActual} which adds another equally useful feature</p>
- * 
- * <p>The format is the one used around ant, ${variableName} and it is looked up
- * in a Map<String, String> set in the servlet context, session and request objects</p>
- * 
- * <p>It gives you the very useful feature of being able to dynamically change the
- * template (layout.jsp) used without resorting to lengthy, ugly jsp definition files</p>
- * 
- * <p>Use the following functions to pass the variable Maps</p>
+ * per request.
+ * To use this you will need to use the specially crafted factory called
+ * {@link DynamicTilesFactoryActual} which adds another equally useful feature
+ * <p>
+ * The format is the one used around ant, ${variableName} and it is looked up
+ * in a Map<String, String> set in the servlet context, session and request objects
+ * <p>
+ * It gives you the very useful feature of being able to dynamically change the
+ * template (layout.jsp) used without resorting to lengthy, ugly jsp definition files
+ * <p>
+ * Use the following functions to pass the variable Maps
  * <ul>
  *   <li> {@link DynamicTilesUtils#setVariables(Map, String, ServletRequest)}
  *   <li> {@link DynamicTilesUtils#setVariables(Map, String, javax.servlet.http.HttpSession)}
  *   <li> {@link DynamicTilesUtils#setVariables(Map, String, ServletRequest)}
  * </ul>
  * 
- * <p>The search for the correct variable value works like this:</p>
+ * <p>
+ * The search for the correct variable value works like this:
  * <ul>
  *   <li>Use the map provided by the servlet context</li>
  *   <li>Then add or override values from the session</li>
