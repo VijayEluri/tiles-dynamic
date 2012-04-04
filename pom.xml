@@ -10,7 +10,7 @@
   
   <groupId>net.chronakis.tiles-dynamic</groupId>
   <artifactId>tiles-dynamic</artifactId>
-  <version>1.3</version>
+  <version>1.3.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>tiles-dynamic</name>
