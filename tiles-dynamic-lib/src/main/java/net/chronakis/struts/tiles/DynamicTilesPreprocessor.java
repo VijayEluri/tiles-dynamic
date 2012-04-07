@@ -167,7 +167,12 @@ public class DynamicTilesPreprocessor extends TilesPreProcessor {
 				continue;
 			}
 			logger.trace("Found replacement substring: " + varKey + " with value " + varVal);
-			result = result.replaceAll("\\$\\{" + varKey + "\\}", varVal);
+			try {
+				result = result.replaceAll("\\$\\{" + varKey + "\\}", varVal);
+			} catch (IllegalArgumentException e) {
+				// This will catch problems with the keys or values
+				throw new IllegalArgumentException("Dynamic variable substitution failed due to regular expression error. Subject = '" + varKey + "', replacement='" + varVal + "'", e);
+			}
 		}
 		
 		logger.trace("Processed string is: " + result);
